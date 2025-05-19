@@ -16,7 +16,7 @@
 ### General
 In general, the solution will
 - Break down the tasks involved into services
-- Have interfaces and default concrete service implememtations, and the service will depend on each other by interfaces instead of the default concrete implementation so we can swap between different implementations easier (e.g swapping the real implementation with a mocked one when unit testing)
+- Have interfaces and default concrete service implememtations, and the service will depend on each other by interfaces instead of the default concrete implementation so we can swap between different implementations easier (e.g swapping the real implementation with a mocked one when unit testing), and enable integrating with Dependency Injection later 
 - Load data from the sample json files 
 - Join the data based on the ids
 - Group the data based on the environments. In each group, the data is grouped again based on the projects, reordered by the deployment date, and taken based on the input number of releases to keep
