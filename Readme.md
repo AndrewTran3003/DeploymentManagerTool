@@ -14,7 +14,7 @@
 ## Solution walkthrough
 
 ### General
-In general, the solution will
+In general, the solution will:
 - Break down the tasks involved into services
 - Have interfaces and default concrete service implememtations, and the service will depend on each other by interfaces instead of the default concrete implementation so we can swap between different implementations easier (e.g swapping the real implementation with a mocked one when unit testing), and enable integrating with Dependency Injection later 
 - Load data from the sample json files 
@@ -29,7 +29,7 @@ Here is the breakdown of the services and what they do
 - Loads the data from a json file into an **IEnumerable** list. The reason to load it as a list is because the structure of the json file is a list. Also, using IEnumerable has the advantage of potentially eliminate multiple iterations through the entire list
 - Uses **StreamReader** to increase the performance in the scenario where we need to load big json files
 - If an exception is thrown, the function simply returns an empty collection
-- There are two test cases for this class. They are inside DefaultDataLoaderTests
+- There are two test cases for this class. They are inside **DefaultDataLoaderTests.cs**
 
 #### DefaultReleaseDataLoader.cs
 - Implements IReleaseDataLoader
@@ -41,21 +41,22 @@ Here is the breakdown of the services and what they do
 - Implements IReleaseDataProcessor
 - Depends on IReleaseDataLoader
 - Loads the deployments, environments, projects, and releases with the help of the methods in IReleaseDataLoader, then joins the data together by ids using **LINQ Join**
-- One test is created to test the joining
+- One test is created to test the joining, which can be found in **DefaultReleaseDataProcessorTests.cs**
 
 #### DefaultReleaseProcessor.cs
 - Implements IReleaseProcessor
 - Provides a method that takes in one parameter that is the number of releases to keep
 - Sorts the flattened/joined release data by environments and projects, orders the release by deployment date, and keeps the releases based on the release to keep parameters with the use of **LINQ OrderBy**
 - Returns a list of releases to keep. Each will have the following information: Release, Project, Environment, and Index
-- 4 test cases for this class, with 3 being the tests mentioned in the StartHere.md
+- 4 test cases for this class, with 3 being the tests mentioned in the StartHere.md. The tests can be found at **DefaultReleaseProcessorTests.cs**
 
 #### DefaultReleaseDataFormatter.cs
 - Implements IReleaseDataFormatter
 - Outputs the log string for the reason why the releases are kept
 - Uses **StringBuilder** to reduce the memory consumption when dealing with string
-- There are 3 test cases for this class. The format is of the following/
-Release Release-2-3 of project Pet Shop was kept because it was the 2nd most recent release to Production
+- There are 3 test cases for this class. The format is of the following
+> Release Release-2-3 of project Pet Shop was kept because it was the 2nd most recent release to Production
+- The test can be found at **DefaultReleaseDataFormatterTests.cs**
 
 ## Limitations
 - Not accounting for the situation where the data could be orphan (e.g The project or the environment is deleted at some point)
